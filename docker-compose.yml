@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    container_name: barber_bot_app
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+      - barber_db_data:/app/data
+
+  redis:
+    image: redis:alpine
+    container_name: barber_bot_redis
+    restart: always
+
+volumes:
+  barber_db_data:
